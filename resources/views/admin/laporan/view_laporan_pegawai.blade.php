@@ -44,6 +44,34 @@
                 <br>
                 <br>
             <?php
+            } else {
+            ?>
+                <div class="intro-y box col-span-12 lg:col-span-12">
+                    <form action="{{ url('admin/laporan') }}" method="GET" enctype="multipart/form-data">
+                        @csrf
+                        <input name="search" type="hidden" value="1" class="form-control">
+                        <div class="grid grid-cols-12 gap-2">
+                            <select name="status_pegawai" class="form-control col-span-3">
+                                <option>-- Semua Status Pegawai --</option>
+                                <option value="1" <?= $_GET['status_pegawai'] == 1 ? "selected" : ""; ?>>AKTIF</option>
+                                <option value="2" <?= $_GET['status_pegawai'] == 2 ? "selected" : ""; ?>>SUDAH DIANGKAT PPPK/PNS</option>
+                                <option value="3" <?= $_GET['status_pegawai'] == 3 ? "selected" : ""; ?>>MUTASI KE OPD LAIN</option>
+                                <option value="4" <?= $_GET['status_pegawai'] == 4 ? "selected" : ""; ?>>BERHENTI BEKERJA</option>
+                            </select>
+                            <select name="status_pendataan" class="form-control col-span-3">
+                                <option>-- Semua Status Pendataan --</option>
+                                <option value="1" <?= $_GET['status_pendataan'] == 1 ? "selected" : ""; ?>>TERDATA</option>
+                                <option value="2" <?= $_GET['status_pendataan'] == 2 ? "selected" : ""; ?>>TERDATA (THK-II)</option>
+                                <option value="3" <?= $_GET['status_pendataan'] == 3 ? "selected" : ""; ?>>TIDAK TERDATA</option>
+                            </select>
+                            <button type="submit" class="btn btn-rounded-primary col-span-2">Submit Laporan</button>
+                        </div>
+                    </form>
+                </div>
+                <br>
+                <br>
+
+            <?php
             }
             ?>
             <div class="text-center">

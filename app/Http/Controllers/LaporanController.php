@@ -11,8 +11,11 @@ use Illuminate\Http\Request;
 class LaporanController extends Controller
 {
 
-    public function index($satus_pegawai = null, $pendataan_2022 = null)
+    public function index(Request $request)
     {
+        $status_pegawai = $request->status_pegawai ? $request->status_pegawai : 0;
+        $status_pendataan = $request->status_pendataan ? $request->status_pendataan : 0;
+
         $data['count_pendataan'] = 0;
         $data['count_thk2'] = 0;
         $data['count_status_aktif'] = 0;
@@ -22,7 +25,22 @@ class LaporanController extends Controller
         $data['count_kelengkapan'] = 0;
         $data['count_kelengkapan_tidak'] = 0;
         $data['count_identitas'] = 0;
-        $data['identitas'] = Identitas::where('skpd_id', Auth::user()->skpd_id)->orderBy('nama', 'ASC')->get();
+        // $data['identitas'] = Identitas::where('skpd_id', Auth::user()->skpd_id)->orderBy('nama', 'ASC')->get();
+
+        if ($request->search > 0) {
+            if (($status_pegawai > 0) && ($status_pendataan > 0)) {
+                $data['identitas'] = Identitas::where(['status_pegawai' => $status_pegawai, 'pendataan_2022' => $status_pendataan, 'skpd_id' => Auth::user()->skpd_id, 'is_active' => 1])->orderBy('nama', 'ASC')->get();
+            } else if (($status_pegawai > 0)) {
+                $data['identitas'] = Identitas::where(['status_pegawai' => $status_pegawai, 'skpd_id' => Auth::user()->skpd_id, 'is_active' => 1])->orderBy('nama', 'ASC')->get();
+            } else if (($status_pendataan > 0)) {
+                $data['identitas'] = Identitas::where(['pendataan_2022' => $status_pendataan, 'skpd_id' => Auth::user()->skpd_id, 'is_active' => 1])->orderBy('nama', 'ASC')->get();
+            } else {
+                $data['identitas'] = Identitas::where(['skpd_id' => Auth::user()->skpd_id, 'is_active' => 1])->orderBy('nama', 'ASC')->get();;
+            }
+        } else {
+            $data['identitas'] = [];
+        }
+
         $data['rjabatan'] = RiwayatJabatan::orderBy('id', 'ASC')->get();
         $masa_kerja = [];
         foreach ($data['identitas'] as $identitass) {

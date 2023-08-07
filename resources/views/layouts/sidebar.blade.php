@@ -121,7 +121,7 @@ if ($sidebar == "full") {
         } else {
         ?>
             <li>
-                <a href="{{ url('admin/laporan')}}" class="side-menu{{ (request()->is('/admin/laporan*')) ? ' side-menu--active' : '' }}">
+                <a href="{{ url('admin/laporan?status_pendataan=0&status_pegawai=0&search=0')}}" class="side-menu{{ (request()->is('/admin/laporan*')) ? ' side-menu--active' : '' }}">
                     <div class="side-menu__icon cursor-pointer" title="LAPORAN"> <i data-lucide="file"></i> </div>
                     <div class="side-menu__title">
                         LAPORAN
