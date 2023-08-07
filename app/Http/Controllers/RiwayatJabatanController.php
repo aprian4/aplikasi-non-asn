@@ -28,7 +28,7 @@ class RiwayatJabatanController extends Controller
             'tandatangan' => 'required',
             'tgl_akhir' => 'required',
             'spk' => 'mimes:pdf|max:1000',
-            'ledger' => 'mimes:pdf|max:1000',
+            'ledger' => 'mimes:pdf|max:2000',
         ]);
 
 

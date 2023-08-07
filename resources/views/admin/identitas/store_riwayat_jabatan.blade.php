@@ -105,7 +105,7 @@
                             <br>
                         </div>
                         <div class="form-inline mt-4 col-span-2">
-                            <label for="horizontal-form-2" class="form-label sm:w-20 col-span-6">*Upload Daftar Gaji (.pdf|Max.1MB)</label>
+                            <label for="horizontal-form-2" class="form-label sm:w-20 col-span-6">*Upload Daftar Gaji (.pdf|Max.2MB)</label>
                         </div>
                         <div class="form-inline mt-4 col-span-3">
                             <input class="form-control" type="file" name="ledger" id="ledger" required>
