@@ -39,7 +39,7 @@
                     <td>{{ $rjabatans->nama_skpd }}</td>
                     <td>{{ $rjabatans->jabatan->nama_jabatan }}</td>
                     <td>{{ $convert_tgl_mulai_view }} <b>s/d</b> {{ $convert_tgl_akhir_view }}</td>
-                    <td>{{ $diff->m }} Bulan</td>
+                    <td>{{ $diff->m + 1 }} Bulan</td>
                     <td>
                         <?php
                         foreach ($spk as $spks) {
@@ -71,7 +71,7 @@
                         </div>
                     </td>
                     <td>
-                        <a href=" javascript:;" data-tw-toggle="modal" data-tw-target="#modal-edit-rjabatan" class="btn btn-warning btn-sm mr-1 mb-2 btn_ubah_rjabatan" data-id="{{ $rjabatans->id }}" data-ledger_id="{{ $ledger_id }}" data-identitas_id="{{ $rjabatans->identitas_id }}" data-no_spk="{{ $rjabatans->no_spk }}" data-tgl_spk="{{ $rjabatans->tgl_spk }}" data-tgl_mulai="{{ $rjabatans->tgl_mulai }}" data-tgl_akhir="{{ $rjabatans->tgl_akhir }}" data-nama_skpd="{{ $rjabatans->nama_skpd }}" data-unit_kerja="{{ $rjabatans->unit_kerja }}" data-jabatan_id="{{ $rjabatans->jabatan_id }}" data-pendidikan_id="{{ $rjabatans->pendidikan_id }}" data-pembayaran="{{ $rjabatans->pembayaran }}" data-tandatangan="{{ $rjabatans->tandatangan }}" data-spk_id="{{ $spk_id }}"> <i data-lucide="edit" class="w-5 h-5"></i></a>
+                        <a href=" javascript:;" data-tw-toggle="modal" data-tw-target="#modal-edit-rjabatan" class="btn btn-warning btn-sm mr-1 mb-2 btn_ubah_rjabatan" data-id="{{ $rjabatans->id }}" data-no_rek="{{ $rjabatans->no_rek }}" data-gaji="{{ $rjabatans->gaji }}" data-ledger_id="{{ $ledger_id }}" data-identitas_id="{{ $rjabatans->identitas_id }}" data-no_spk="{{ $rjabatans->no_spk }}" data-tgl_spk="{{ $rjabatans->tgl_spk }}" data-tgl_mulai="{{ $rjabatans->tgl_mulai }}" data-tgl_akhir="{{ $rjabatans->tgl_akhir }}" data-nama_skpd="{{ $rjabatans->nama_skpd }}" data-unit_kerja="{{ $rjabatans->unit_kerja }}" data-jabatan_id="{{ $rjabatans->jabatan_id }}" data-pendidikan_id="{{ $rjabatans->pendidikan_id }}" data-pembayaran="{{ $rjabatans->pembayaran }}" data-tandatangan="{{ $rjabatans->tandatangan }}" data-spk_id="{{ $spk_id }}"> <i data-lucide="edit" class="w-5 h-5"></i></a>
                         <a href="javascript:;" data-tw-toggle="modal" data-tw-target="#modal-hapus-rjabatan" class="btn btn-danger btn-sm mr-1 mb-2 btn_hapus_rjabatan" data-id="{{ $rjabatans->id }}" data-ledger_id="{{ $ledger_id }}" data-identitas_id="{{ $rjabatans->identitas_id }}" data-spk_id="{{ $spk_id }}"><i data-lucide="trash" class="w-5 h-5"></i></a>
                     </td>
                 </tr>

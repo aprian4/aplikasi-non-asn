@@ -147,6 +147,8 @@
         var pendidikan_id = $(this).data('pendidikan_id');
         var pembayaran = $(this).data('pembayaran');
         var tandatangan = $(this).data('tandatangan');
+        var gaji = $(this).data('gaji');
+        var no_rek = $(this).data('no_rek');
         //alert(pendidikan_id);
         $(".ubah_rjabatan_id").val(id);
         $(".ubah_rjabatan_identitas_id").val(identitas_id);
@@ -162,6 +164,9 @@
         $(".ubah_rjabatan_pendidikan_id").val(pendidikan_id);
         $(".ubah_rjabatan_pembayaran").val(pembayaran);
         $(".ubah_rjabatan_tandatangan").val(tandatangan);
+        $(".ubah_rjabatan_gaji").val(gaji);
+        $(".ubah_rjabatan_no_rek").val(no_rek);
+
 
     });
 

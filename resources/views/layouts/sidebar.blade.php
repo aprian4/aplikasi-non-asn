@@ -73,10 +73,18 @@ if ($sidebar == "full") {
                 </a>
             </li>
         <?php
-        }
+        } else {
         ?>
-
+            <li>
+                <a href="{{ url('/admin/pegawai-admin?skpd_id=0&search=0')}}" class="side-menu{{ (request()->is('admin/pegawai*')) ? ' side-menu--active' : '' }}">
+                    <div class="side-menu__icon cursor-pointer" title="DATA PEGAWAI"> <i data-lucide="user"></i> </div>
+                    <div class="side-menu__title">
+                        DATA PEGAWAI
+                    </div>
+                </a>
+            </li>
         <?php
+        }
         if ($user->level == 1) {
         ?>
             <li>
@@ -146,14 +154,39 @@ if ($sidebar == "full") {
         <?php
         }
         ?>
-        <li>
-            <a href="javascript:;" class="side-menu btn_ubah_password" data-tw-toggle="modal" data-tw-target="#modal-ubah-password" data-id="{{ $user->id }}" data-nama="{{ $user->nama }}">
+        <!-- <li>
+            <a href="javascript:;" class="side-menu btn_ubah_password" data-tw-toggle="modal" data-tw-target="#modal2-ubah-password" data-id="{{ $user->id }}" data-nama="{{ $user->nama }}">
                 <div class=" side-menu__icon cursor-pointer" title="GANTI PASSWORD"> <i data-lucide="lock"></i> </div>
                 <div class="side-menu__title">
                     GANTI PASSWORD
                 </div>
             </a>
-        </li>
+        </li> -->
+        <?php
+        if ($user->level == 1) {
+        ?>
+            <li>
+                <a href="{{ url('/ganti-password-admin') }}" class="side-menu{{ (request()->is('ganti-password*')) ? ' side-menu--active' : '' }}">
+                    <div class="side-menu__icon cursor-pointer" title="GANTI PASSWORD"> <i data-lucide="lock"></i> </div>
+                    <div class="side-menu__title">
+                        GANTI PASSWORD
+                    </div>
+                </a>
+            </li>
+        <?php
+        } else {
+        ?>
+            <li>
+                <a href="{{ url('/ganti-password') }}" class="side-menu{{ (request()->is('ganti-password*')) ? ' side-menu--active' : '' }}">
+                    <div class="side-menu__icon cursor-pointer" title="GANTI PASSWORD"> <i data-lucide="lock"></i> </div>
+                    <div class="side-menu__title">
+                        GANTI PASSWORD
+                    </div>
+                </a>
+            </li>
+        <?php
+        }
+        ?>
         <!-- <li>
             <a href="" class="side-menu">
                 <div class="side-menu__icon cursor-pointer" title="DATA AKUN USER"> <i data-lucide="log-out"></i> </div>
@@ -167,34 +200,3 @@ if ($sidebar == "full") {
         </li> -->
     </ul>
 </nav>
-
-<div id="modal-ubah-password" class="modal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="{{ url('/admin/akun/update-password') }}" method="POST" enctype="multipart/form-data">
-                <!-- BEGIN: Modal Header -->
-                <div class="modal-header">
-                    <h2 class="font-medium text-base mr-auto">Ubah Password</h2>
-                </div> <!-- END: Modal Header -->
-                <!-- BEGIN: Modal Body -->
-                <div class="modal-body grid grid-cols-12 gap-4 gap-y-3">
-                    @csrf
-                    <div class="col-span-12 sm:col-span-12">
-                        <label for="nama" class="form-label">Nama User</label>
-                        <input name="id" type="hidden" class="form-control ubah_id">
-                        <input name="nama" type="text" class="form-control ubah_nama" placeholder="Nama User" readonly>
-                    </div>
-                    <div class="col-span-12 sm:col-span-12">
-                        <label for="password" class="form-label">Password</label>
-                        <input name="password" type="text" class="form-control ubah_password" placeholder="Password Baru" required>
-                    </div>
-                </div> <!-- END: Modal Body -->
-                <!-- BEGIN: Modal Footer -->
-                <div class="modal-footer">
-                    <button type="button" data-tw-dismiss="modal" class="btn btn-outline-secondary w-20 mr-1">Batal</button>
-                    <button type="submit" class="btn btn-primary w-20">Simpan</button>
-                </div> <!-- END: Modal Footer -->
-            </form>
-        </div>
-    </div>
-</div>

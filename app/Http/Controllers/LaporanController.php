@@ -50,7 +50,7 @@ class LaporanController extends Controller
                     $tgl_mulai  = date_create($rjabatans->tgl_mulai);
                     $tgl_akhir  = date_create($rjabatans->tgl_akhir);
                     $diff = date_diff($tgl_mulai, $tgl_akhir);
-                    $masa_kerja[$identitass->id] = $masa_kerja[$identitass->id] + $diff->m;
+                    $masa_kerja[$identitass->id] = $masa_kerja[$identitass->id] + ($diff->m + 1);
                 }
             }
         }
@@ -111,7 +111,7 @@ class LaporanController extends Controller
                     $tgl_mulai  = date_create($rjabatans->tgl_mulai);
                     $tgl_akhir  = date_create($rjabatans->tgl_akhir);
                     $diff = date_diff($tgl_mulai, $tgl_akhir);
-                    $masa_kerja[$identitass->id] = $masa_kerja[$identitass->id] + $diff->m;
+                    $masa_kerja[$identitass->id] = $masa_kerja[$identitass->id] + ($diff->m + 1);
                 }
             }
         }

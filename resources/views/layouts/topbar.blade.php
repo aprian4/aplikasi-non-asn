@@ -105,11 +105,26 @@
                 <!-- <li>
                     <a href="" class="dropdown-item hover:bg-white/5"> <i data-lucide="user" class="w-4 h-4 mr-2"></i> Profil </a>
                 </li> -->
-                <li>
-                    <a href="javascript:;" class="dropdown-item hover:bg-white/5 btn_ubah_password" data-tw-toggle="modal" data-tw-target="#modal-ubah-password" data-id="{{ $user->id }}" data-nama="{{ $user->nama }}">
-                        <i data-lucide="lock" class="w-4 h-4 mr-2"></i> Ganti Password
-                    </a>
-                </li>
+                <?php
+                if ($user->level == 1) {
+                ?>
+                    <li>
+                        <a href="{{ url('/ganti-password-admin') }}" class="dropdown-item hover:bg-white/5">
+                            <i data-lucide="lock" class="w-4 h-4 mr-2"></i> Ganti Password
+                        </a>
+                    </li>
+                <?php
+                } else {
+                ?>
+                    <li>
+                        <a href="{{ url('/ganti-password') }}" class="dropdown-item hover:bg-white/5">
+                            <i data-lucide="lock" class="w-4 h-4 mr-2"></i> Ganti Password
+                        </a>
+                    </li>
+                <?php
+                }
+                ?>
+
                 <li>
                     <hr class="dropdown-divider border-white/[0.08]">
                 </li>

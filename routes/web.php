@@ -40,13 +40,21 @@ Route::group(['middleware' => ['auth', 'ceklevel:1', 'revalidate']], function ()
     Route::post('admin/jabatan/store', 'App\Http\Controllers\JabatanController@store');
     Route::post('admin/jabatan/update', 'App\Http\Controllers\JabatanController@update');
     Route::post('admin/jabatan/delete', 'App\Http\Controllers\JabatanController@delete');
-    Route::get('admin/pegawai', 'App\Http\Controllers\IdentitasController@index');
-    Route::post('admin/pegawai/store', 'App\Http\Controllers\IdentitasController@store');
-    Route::post('admin/pegawai/update', 'App\Http\Controllers\IdentitasController@update');
-    Route::post('admin/pegawai/delete', 'App\Http\Controllers\IdentitasController@delete');
-    Route::get('admin/pegawai/detail/{id}', 'App\Http\Controllers\IdentitasController@detail');
-    Route::post('admin/pegawai/biodata', 'App\Http\Controllers\IdentitasController@biodata');
+    Route::get('admin/pegawai-admin', 'App\Http\Controllers\IdentitasController@index2');
+    Route::post('admin/pegawai-admin/store', 'App\Http\Controllers\IdentitasController@store');
+    Route::post('admin/pegawai-admin/update', 'App\Http\Controllers\IdentitasController@update');
+    Route::post('admin/pegawai-admin/delete', 'App\Http\Controllers\IdentitasController@delete');
+    Route::get('admin/pegawai-admin/detail/{id}', 'App\Http\Controllers\IdentitasController@detail');
+    Route::post('admin/pegawai-admin/biodata', 'App\Http\Controllers\IdentitasController@biodata');
     Route::get('admin/laporan-admin', 'App\Http\Controllers\LaporanController@index2');
+    Route::post('admin/pegawai-admin/rjabatan', 'App\Http\Controllers\RiwayatJabatanController@store');
+    Route::post('admin/pegawai-admin/rjabatan/delete', 'App\Http\Controllers\RiwayatJabatanController@delete');
+    Route::post('admin/pegawai-admin/rjabatan/update', 'App\Http\Controllers\RiwayatJabatanController@update');
+    Route::post('admin/pegawai-admin/rpendidikan', 'App\Http\Controllers\RiwayatPendidikanController@store');
+    Route::post('admin/pegawai-admin/rpendidikan/delete', 'App\Http\Controllers\RiwayatPendidikanController@delete');
+    Route::post('admin/pegawai-admin/rpendidikan/update', 'App\Http\Controllers\RiwayatPendidikanController@update');
+    Route::get('ganti-password-admin', 'App\Http\Controllers\AkunController@ganti_password');
+    Route::post('update-password-admin', 'App\Http\Controllers\AkunController@update_password_user');
 });
 
 Route::group(['middleware' => ['auth', 'ceklevel:2', 'revalidate']], function () {
@@ -66,6 +74,8 @@ Route::group(['middleware' => ['auth', 'ceklevel:2', 'revalidate']], function ()
     Route::post('admin/pegawai/rpendidikan/delete', 'App\Http\Controllers\RiwayatPendidikanController@delete');
     Route::post('admin/pegawai/rpendidikan/update', 'App\Http\Controllers\RiwayatPendidikanController@update');
     Route::get('admin/laporan', 'App\Http\Controllers\LaporanController@index');
+    Route::get('ganti-password', 'App\Http\Controllers\AkunController@ganti_password');
+    Route::post('update-password', 'App\Http\Controllers\AkunController@update_password_user');
 });
 
 Route::group(['middleware' => ['auth', 'ceklevel:3', 'revalidate']], function () {

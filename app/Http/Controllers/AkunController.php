@@ -34,6 +34,24 @@ class AkunController extends Controller
         //dd($data['skpd']);
         return view('admin.akun.view_akun', $data);
     }
+    public function ganti_password()
+    {
+        $data['sidebar'] = "";
+        $data['count_pendataan'] = 0;
+        $data['count_thk2'] = 0;
+        $data['count_status_aktif'] = 0;
+        $data['count_status_diangkat'] = 0;
+        $data['count_status_pindah'] = 0;
+        $data['count_status_resign'] = 0;
+        $data['count_kelengkapan'] = 0;
+        $data['count_kelengkapan_tidak'] = 0;
+        $data['count_identitas'] = 0;
+        $data['user'] = Auth::user();
+        $data['nama_skpd'] = [];
+        $data['jml_pegawai'] = [];
+        //dd($data['skpd']);
+        return view('ganti-password', $data);
+    }
 
     public function store(Request $request)
     {
@@ -97,6 +115,30 @@ class AkunController extends Controller
             return redirect('/admin/akun')->with('sukses', 'Password Berhasil Diubah!');
         } else {
             return redirect('/admin/akun')->with('gagal', 'Password Gagal Diubah!');
+        }
+    }
+
+    public function update_password_user(Request $request)
+    {
+        $request->validate([
+            'password' => 'required',
+        ]);
+
+        $user = User::find($request->id);
+        $user->password = Hash::make($request->password);
+        $user->updated_at = new DateTime();
+        if ($user->save()) {
+            if (Auth::user()->level == 1) {
+                return redirect('/ganti-password-admin')->with('sukses', 'Password Berhasil Diubah!');
+            } else {
+                return redirect('/ganti-password')->with('sukses', 'Password Berhasil Diubah!');
+            }
+        } else {
+            if (Auth::user()->level == 1) {
+                return redirect('/ganti-password-admin')->with('gagal', 'Password Gagal Diubah!');
+            } else {
+                return redirect('/ganti-password')->with('gagal', 'Password Gagal Diubah!');
+            }
         }
     }
 

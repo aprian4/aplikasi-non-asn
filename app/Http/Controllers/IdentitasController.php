@@ -41,6 +41,36 @@ class IdentitasController extends Controller
         $data['skpd'] = Skpd::where('is_active', 1)->get();
         $data['nama_skpd'] = [];
         $data['jml_pegawai'] = [];
+        $data['path_foto'] = Dokumen::where('jenis_dokumen', 'foto')->get();
+        //$data['jabatan'] = Jabatan::where('is_active', 1)->get();
+        //dd($data['identitas']);
+        return view('admin.identitas.view_identitas', $data);
+    }
+    public function index2(Request $request)
+    {
+        $opd = $request->skpd_id ? $request->skpd_id : 0;
+
+        $data['sidebar'] = "";
+        $data['count_pendataan'] = 0;
+        $data['count_thk2'] = 0;
+        $data['count_status_aktif'] = 0;
+        $data['count_status_diangkat'] = 0;
+        $data['count_status_pindah'] = 0;
+        $data['count_status_resign'] = 0;
+        $data['count_kelengkapan'] = 0;
+        $data['count_kelengkapan_tidak'] = 0;
+        $data['count_identitas'] = 0;
+        $data['user'] = Auth::user();
+
+        if (($opd > 0) && ($request->search > 0)) {
+            $data['identitas'] = Identitas::where(['skpd_id' => $opd, 'is_active' => 1])->orderBy('nama', 'ASC')->get();
+        } else {
+            $data['identitas'] = [];
+        }
+        $data['skpd'] = Skpd::where('is_active', 1)->get();
+        $data['nama_skpd'] = [];
+        $data['jml_pegawai'] = [];
+        $data['path_foto'] = Dokumen::where('jenis_dokumen', 'foto')->get();
         //$data['jabatan'] = Jabatan::where('is_active', 1)->get();
         //dd($data['identitas']);
         return view('admin.identitas.view_identitas', $data);
@@ -109,19 +139,27 @@ class IdentitasController extends Controller
         $identitas->save();
         if ($identitas->save()) {
             //ADD USER AKUN
-            $user = new User;
-            $user->nama = $request->nama;
-            $user->username = $request->nik;
-            $user->skpd_id = $request->skpd_id;
-            $user->level = 3;
-            $user->is_active = 1;
-            $user->created_by = Auth::user()->username;
-            $user->created_at = new DateTime();
-            $user->password = Hash::make("bkpsdm123");
-            $user->save();
-            return redirect('/admin/pegawai')->with('sukses', 'Pegawai a.n ' . $request->nama . ' Berhasil Ditambahkan!');
+            // $user = new User;
+            // $user->nama = $request->nama;
+            // $user->username = $request->nik;
+            // $user->skpd_id = $request->skpd_id;
+            // $user->level = 3;
+            // $user->is_active = 1;
+            // $user->created_by = Auth::user()->username;
+            // $user->created_at = new DateTime();
+            // $user->password = Hash::make("bkpsdm123");
+            // $user->save();
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin?search=1&skpd_id=' . $request->skpd_id)->with('sukses', 'Pegawai a.n ' . $request->nama . ' Berhasil Ditambahkan!');
+            } else {
+                return redirect('/admin/pegawai')->with('sukses', 'Pegawai a.n ' . $request->nama . ' Berhasil Ditambahkan!');
+            }
         } else {
-            return redirect('/admin/pegawai')->with('gagal', 'Pegawai Gagal Ditambahkan!');
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin?search=1&skpd_id=' . $request->skpd_id)->with('gagal', 'Pegawai Gagal Ditambahkan!');
+            } else {
+                return redirect('/admin/pegawai')->with('gagal', 'Pegawai Gagal Ditambahkan!');
+            }
         }
     }
 
@@ -145,9 +183,17 @@ class IdentitasController extends Controller
             $identitas->updated_by = Auth::user()->username;
             $identitas->updated_at = new DateTime();
             if ($identitas->save()) {
-                return redirect('/admin/pegawai')->with('sukses', 'Pegawai a.n ' . $request->nama . ' Berhasil Diubah!');
+                if (Auth::user()->level == 1) {
+                    return redirect('/admin/pegawai-admin?search=1&skpd_id=' . $request->skpd_id)->with('sukses', 'Pegawai a.n ' . $request->nama . ' Berhasil Diubah!');
+                } else {
+                    return redirect('/admin/pegawai')->with('sukses', 'Pegawai a.n ' . $request->nama . ' Berhasil Diubah!');
+                }
             } else {
-                return redirect('/admin/pegawai')->with('gagal', 'Pegawai Gagal Diubah!');
+                if (Auth::user()->level == 1) {
+                    return redirect('/admin/pegawai-admin?search=1&skpd_id=' . $request->skpd_id)->with('gagal', 'Pegawai Gagal Diubah!');
+                } else {
+                    return redirect('/admin/pegawai')->with('gagal', 'Pegawai Gagal Diubah!');
+                }
             }
         }
     }
@@ -227,15 +273,31 @@ class IdentitasController extends Controller
         $identitas->pendidikan_id = $request->pendidikan_id;
         $identitas->gelar_depan = ($request->gelar_depan ? $request->gelar_depan : null);
         $identitas->gelar_belakang = ($request->gelar_belakang ? $request->gelar_belakang : null);
-        $identitas->status_kelengkapan = 2;
+
+        if ($identitas->status_kelengkapan == 1) {
+            $identitas->status_kelengkapan = 2;
+        } else if ($identitas->status_kelengkapan == 2) {
+            $identitas->status_kelengkapan = 3;
+        } else if ($identitas->status_kelengkapan == 3) {
+            $identitas->status_kelengkapan = 4;
+        }
         $identitas->updated_by = Auth::user()->username;
         $identitas->updated_at = new DateTime();
 
 
         if ($identitas->save()) {
-            return redirect('/admin/pegawai/detail/' . $request->id)->with('sukses', 'Pegawai a.n ' . $request->nama . ' Berhasil Diubah!');
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin/detail/' . $request->id)->with('sukses', 'Pegawai a.n ' . $request->nama . ' Berhasil Diubah!');
+            } else {
+                return redirect('/admin/pegawai/detail/' . $request->id)->with('sukses', 'Pegawai a.n ' . $request->nama . ' Berhasil Diubah!');
+            }
         } else {
-            return redirect('/admin/pegawai/detail/' . $request->id)->with('gagal', 'Pegawai Gagal Diubah!');
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin/detail/' . $request->id)->with('gagal', 'Pegawai Gagal Diubah!');
+            } else {
+
+                return redirect('/admin/pegawai/detail/' . $request->id)->with('gagal', 'Pegawai Gagal Diubah!');
+            }
         }
     }
 
@@ -244,15 +306,27 @@ class IdentitasController extends Controller
     {
 
         if ($request->pendataan_2022 < 3) {
-            return redirect('/admin/pegawai')->with('gagal', 'Pegawai a.n ' . $request->nama . ' Tidak Bisa Dihapus Karena Masuk Dalam Pendataaan Non ASN Tahun 2022!');
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin?search=1&skpd_id=' . $request->skpd_id)->with('gagal', 'Pegawai a.n ' . $request->nama . ' Tidak Bisa Dihapus Karena Masuk Dalam Pendataaan Non ASN Tahun 2022!');
+            } else {
+                return redirect('/admin/pegawai')->with('gagal', 'Pegawai a.n ' . $request->nama . ' Tidak Bisa Dihapus Karena Masuk Dalam Pendataaan Non ASN Tahun 2022!');
+            }
         } else {
 
             $identitas = Identitas::findOrFail($request->id);
 
             if ($identitas->delete()) {
-                return redirect('/admin/pegawai')->with('sukses', 'Pegawai a.n ' . $request->nama . ' Berhasil Dihapus!');
+                if (Auth::user()->level == 1) {
+                    return redirect('/admin/pegawai-admin?search=1&skpd_id=' . $identitas->skpd_id)->with('sukses', 'Pegawai a.n ' . $request->nama . ' Berhasil Dihapus!');
+                } else {
+                    return redirect('/admin/pegawai')->with('sukses', 'Pegawai a.n ' . $request->nama . ' Berhasil Dihapus!');
+                }
             } else {
-                return redirect('/admin/pegawai')->with('gagal', 'Pegawai Gagal Dihapus!');
+                if (Auth::user()->level == 1) {
+                    return redirect('/admin/pegawai-admin?search=1&skpd_id=' . $identitas->skpd_id)->with('gagal', 'Pegawai Gagal Dihapus!');
+                } else {
+                    return redirect('/admin/pegawai')->with('gagal', 'Pegawai Gagal Dihapus!');
+                }
             }
         }
     }

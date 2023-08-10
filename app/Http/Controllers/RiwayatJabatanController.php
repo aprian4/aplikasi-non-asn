@@ -26,6 +26,8 @@ class RiwayatJabatanController extends Controller
             'pendidikan_id' => 'required|min_digits:1',
             'pembayaran' => 'required',
             'tandatangan' => 'required',
+            'gaji' => 'required',
+            'no_rek' => 'required',
             'tgl_akhir' => 'required',
             'spk' => 'mimes:pdf|max:1000',
             'ledger' => 'mimes:pdf|max:2000',
@@ -44,6 +46,8 @@ class RiwayatJabatanController extends Controller
         $rjabatan->pendidikan_id = $request->pendidikan_id;
         $rjabatan->pembayaran = $request->pembayaran;
         $rjabatan->tandatangan = $request->tandatangan;
+        $rjabatan->no_rek = $request->no_rek;
+        $rjabatan->gaji = $request->gaji;
         $rjabatan->skpd_id = 0;
         $rjabatan->is_active = 1;
         $rjabatan->status = 1;
@@ -83,13 +87,27 @@ class RiwayatJabatanController extends Controller
 
         if ($rjabatan->save()) {
             $identitas = Identitas::findOrFail($request->id);
-            $identitas->status_kelengkapan = 3;
+            if ($identitas->status_kelengkapan == 1) {
+                $identitas->status_kelengkapan = 2;
+            } else if ($identitas->status_kelengkapan == 2) {
+                $identitas->status_kelengkapan = 3;
+            } else if ($identitas->status_kelengkapan == 3) {
+                $identitas->status_kelengkapan = 4;
+            }
             $identitas->updated_by = Auth::user()->username;
             $identitas->updated_at = new DateTime();
             $identitas->save();
-            return redirect('/admin/pegawai/detail/' . $request->id . '?tab=2')->with('sukses', 'Riwayat Jabatan a.n ' . $request->nama . ' Berhasil Ditambahkan!');
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin/detail/' . $request->id . '?tab=2')->with('sukses', 'Riwayat Jabatan a.n ' . $request->nama . ' Berhasil Ditambahkan!');
+            } else {
+                return redirect('/admin/pegawai/detail/' . $request->id . '?tab=2')->with('sukses', 'Riwayat Jabatan a.n ' . $request->nama . ' Berhasil Ditambahkan!');
+            }
         } else {
-            return redirect('/admin/pegawai/detail/' . $request->id . '?tab=2')->with('gagal', 'Riwayat Jabatan Gagal Ditambahkan!');
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin/detail/' . $request->id . '?tab=2')->with('gagal', 'Riwayat Jabatan Gagal Ditambahkan!');
+            } else {
+                return redirect('/admin/pegawai/detail/' . $request->id . '?tab=2')->with('gagal', 'Riwayat Jabatan Gagal Ditambahkan!');
+            }
         }
     }
 
@@ -107,6 +125,8 @@ class RiwayatJabatanController extends Controller
             'pembayaran' => 'required',
             'tandatangan' => 'required',
             'tgl_akhir' => 'required',
+            'gaji' => 'required',
+            'no_rek' => 'required',
             'spk' => 'mimes:pdf|max:1000',
             'ledger' => 'mimes:pdf|max:1000',
         ]);
@@ -123,6 +143,8 @@ class RiwayatJabatanController extends Controller
         $rjabatan->pendidikan_id = $request->pendidikan_id;
         $rjabatan->pembayaran = $request->pembayaran;
         $rjabatan->tandatangan = $request->tandatangan;
+        $rjabatan->no_rek = $request->no_rek;
+        $rjabatan->gaji = $request->gaji;
         $rjabatan->skpd_id = 0;
         $rjabatan->is_active = 1;
         $rjabatan->status = 1;
@@ -173,10 +195,17 @@ class RiwayatJabatanController extends Controller
         }
 
         if ($rjabatan->save()) {
-
-            return redirect('/admin/pegawai/detail/' . $request->identitas_id . '?tab=2')->with('sukses', 'Riwayat Jabatan Berhasil Diubah!');
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin/detail/' . $request->identitas_id . '?tab=2')->with('sukses', 'Riwayat Jabatan Berhasil Diubah!');
+            } else {
+                return redirect('/admin/pegawai/detail/' . $request->identitas_id . '?tab=2')->with('sukses', 'Riwayat Jabatan Berhasil Diubah!');
+            }
         } else {
-            return redirect('/admin/pegawai/detail/' . $request->identitas_id . '?tab=2')->with('gagal', 'Riwayat Jabatan Gagal Diubah!');
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin/detail/' . $request->identitas_id . '?tab=2')->with('gagal', 'Riwayat Jabatan Gagal Diubah!');
+            } else {
+                return redirect('/admin/pegawai/detail/' . $request->identitas_id . '?tab=2')->with('gagal', 'Riwayat Jabatan Gagal Diubah!');
+            }
         }
     }
 
@@ -197,9 +226,18 @@ class RiwayatJabatanController extends Controller
             Storage::delete($dokumen_ledger->path);
             $dokumen_ledger->delete();
 
-            return redirect('/admin/pegawai/detail/' . $rjabatan->identitas_id . '?tab=2')->with('sukses', 'Riwayat Jabatan Berhasil Dihapus!');
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin/detail/' . $rjabatan->identitas_id . '?tab=2')->with('sukses', 'Riwayat Jabatan Berhasil Dihapus!');
+            } else {
+
+                return redirect('/admin/pegawai/detail/' . $rjabatan->identitas_id . '?tab=2')->with('sukses', 'Riwayat Jabatan Berhasil Dihapus!');
+            }
         } else {
-            return redirect('/admin/pegawai/detail/' . $rjabatan->identitas_id . '?tab=2')->with('gagal', 'Riwayat Jabatan Gagal Dihapus!');
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin/detail/' . $rjabatan->identitas_id . '?tab=2')->with('gagal', 'Riwayat Jabatan Gagal Dihapus!');
+            } else {
+                return redirect('/admin/pegawai/detail/' . $rjabatan->identitas_id . '?tab=2')->with('gagal', 'Riwayat Jabatan Gagal Dihapus!');
+            }
         }
     }
 }

@@ -60,13 +60,27 @@ class RiwayatPendidikanController extends Controller
 
         if ($rpendidikan->save()) {
             $identitas = Identitas::findOrFail($request->id);
-            $identitas->status_kelengkapan = 4;
+            if ($identitas->status_kelengkapan == 1) {
+                $identitas->status_kelengkapan = 2;
+            } else if ($identitas->status_kelengkapan == 2) {
+                $identitas->status_kelengkapan = 3;
+            } else if ($identitas->status_kelengkapan == 3) {
+                $identitas->status_kelengkapan = 4;
+            }
             $identitas->updated_by = Auth::user()->username;
             $identitas->updated_at = new DateTime();
             $identitas->save();
-            return redirect('/admin/pegawai/detail/' . $request->id . '?tab=3')->with('sukses', 'Riwayat Pendidikan a.n ' . $request->nama . ' Berhasil Ditambahkan!');
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin/detail/' . $request->id . '?tab=3')->with('sukses', 'Riwayat Pendidikan a.n ' . $request->nama . ' Berhasil Ditambahkan!');
+            } else {
+                return redirect('/admin/pegawai/detail/' . $request->id . '?tab=3')->with('sukses', 'Riwayat Pendidikan a.n ' . $request->nama . ' Berhasil Ditambahkan!');
+            }
         } else {
-            return redirect('/admin/pegawai/detail/' . $request->id . '?tab=3')->with('gagal', 'Riwayat Pendidikan Gagal Ditambahkan!');
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin/detail/' . $request->id . '?tab=3')->with('gagal', 'Riwayat Pendidikan Gagal Ditambahkan!');
+            } else {
+                return redirect('/admin/pegawai/detail/' . $request->id . '?tab=3')->with('gagal', 'Riwayat Pendidikan Gagal Ditambahkan!');
+            }
         }
     }
 
@@ -122,9 +136,18 @@ class RiwayatPendidikanController extends Controller
         }
 
         if ($rpendidikan->save()) {
-            return redirect('/admin/pegawai/detail/' . $request->identitas_id . '?tab=3')->with('sukses', 'Riwayat Pendidikan Berhasil Diubah!');
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin/detail/' . $request->identitas_id . '?tab=3')->with('sukses', 'Riwayat Pendidikan Berhasil Diubah!');
+            } else {
+                return redirect('/admin/pegawai/detail/' . $request->identitas_id . '?tab=3')->with('sukses', 'Riwayat Pendidikan Berhasil Diubah!');
+            }
         } else {
-            return redirect('/admin/pegawai/detail/' . $request->identitas_id . '?tab=3')->with('gagal', 'Riwayat Pendidikan Gagal Diubah!');
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin/detail/' . $request->identitas_id . '?tab=3')->with('gagal', 'Riwayat Pendidikan Gagal Diubah!');
+            } else {
+
+                return redirect('/admin/pegawai/detail/' . $request->identitas_id . '?tab=3')->with('gagal', 'Riwayat Pendidikan Gagal Diubah!');
+            }
         }
     }
 
@@ -140,9 +163,19 @@ class RiwayatPendidikanController extends Controller
             Storage::delete($dokumen_ijazah->path);
             $dokumen_ijazah->delete();
 
-            return redirect('/admin/pegawai/detail/' . $rpendidikan->identitas_id . '?tab=3')->with('sukses', 'Riwayat Pendidikan Berhasil Dihapus!');
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin/detail/' . $rpendidikan->identitas_id . '?tab=3')->with('sukses', 'Riwayat Pendidikan Berhasil Dihapus!');
+            } else {
+
+                return redirect('/admin/pegawai/detail/' . $rpendidikan->identitas_id . '?tab=3')->with('sukses', 'Riwayat Pendidikan Berhasil Dihapus!');
+            }
         } else {
-            return redirect('/admin/pegawai/detail/' . $rpendidikan->identitas_id . '?tab=3')->with('gagal', 'Riwayat Pendidikan Gagal Dihapus!');
+
+            if (Auth::user()->level == 1) {
+                return redirect('/admin/pegawai-admin/detail/' . $rpendidikan->identitas_id . '?tab=3')->with('gagal', 'Riwayat Pendidikan Gagal Dihapus!');
+            } else {
+                return redirect('/admin/pegawai/detail/' . $rpendidikan->identitas_id . '?tab=3')->with('gagal', 'Riwayat Pendidikan Gagal Dihapus!');
+            }
         }
     }
 }
