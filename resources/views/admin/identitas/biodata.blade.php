@@ -18,8 +18,12 @@
                             <?php
                             if (($identitas->pendataan_2022 == 1) || ($identitas->pendataan_2022 == 2)) {
                                 $req = "readonly";
+                                $none =  "pointer-events: none;";
+                                $tom = "";
                             } else {
                                 $req = "";
+                                $tom = "tom-select w-full";
+                                $none =  "";
                             }
                             ?>
                             <div class="grid grid-cols-12 gap-2">
@@ -44,7 +48,7 @@
                                 </div>
                                 <div class="form-inline mt-4 col-span-6">
                                     <label for="jenis_kelamin" class="form-label sm:w-20 col-span-6">*Jenis Kelamin</label>
-                                    <select name="jenis_kelamin" class="form-control" {{ $req }}>
+                                    <select name="jenis_kelamin" class="form-control" style="{{ $none }}" {{ $req }}>
                                         <option>-- Pilih Jenis Kelamin --</option>
                                         <option value="l" {{ ($identitas->jenis_kelamin == 'l' ? 'selected' : '') }}>Laki-laki</option>
                                         <option value="p" {{ ($identitas->jenis_kelamin == 'p' ? 'selected' : '') }}>Perempuan</option>
@@ -64,7 +68,7 @@
                             <div class="grid grid-cols-12 gap-2">
                                 <div class="form-inline mt-4 col-span-6">
                                     <label for="agama_id" class="form-label sm:w-20 col-span-6">*Agama</label>
-                                    <select name="agama_id" class="form-control" {{ $req }}>
+                                    <select name="agama_id" class="form-control" style="{{ $none }}" {{ $req }}>
                                         <option>-- Pilih Agama --</option>
                                         @foreach ($agama as $agamas)
                                         <option value="<?= $agamas->id ?>" {{ ($identitas->agama_id == $agamas->id ? 'selected' : '') }}>{{ $agamas->nama_agama }}</option>
@@ -118,7 +122,7 @@
                             <div class="grid grid-cols-12 gap-2">
                                 <div class="form-inline mt-4 col-span-6">
                                     <label for="jabatan_id" class="form-label sm:w-20 col-span-6">*Jabatan (Sesuai Kontrak Kerja)</label>
-                                    <select name="jabatan_id" class="form-control tom-select w-full" {{ $req }}>
+                                    <select name="jabatan_id" class="form-control {{ $tom }}" style="{{ $none }}" {{ $req }}>
                                         <option>-- Pilih Jabatan --</option>
                                         @foreach ($jabatan as $jabatans)
                                         <option value="<?= $jabatans->id ?>" {{ ($identitas->jabatan_id == $jabatans->id ? 'selected' : '') }}>{{ $jabatans->nama_jabatan }}</option>
@@ -127,7 +131,7 @@
                                 </div>
                                 <div class="form-inline mt-4 col-span-6">
                                     <label for="pendidikan_id" class="form-label sm:w-20 col-span-6">*Pendidikan (Sesuai Kontrak Kerja)</label>
-                                    <select name="pendidikan_id" class="form-control tom-select w-full" {{ $req }}>
+                                    <select name="pendidikan_id" class="form-control {{ $tom }}" style="{{ $none }}" {{ $req }}>
                                         <option>-- Pilih Pendidikan --</option>
                                         @foreach ($pendidikan as $pendidikans)
                                         <option value="<?= $pendidikans->id ?>" {{ ($identitas->pendidikan_id == $pendidikans->id ? 'selected' : '') }}>{{ $pendidikans->jenjang_pendidikan }}</option>

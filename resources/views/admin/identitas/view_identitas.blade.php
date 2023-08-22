@@ -79,16 +79,19 @@
                         <?php
 
                         if ($identitass->status_kelengkapan == 2) {
+                            $persentase = 25;
+                            $width = "w-4";
+                        } else if ($identitass->status_kelengkapan == 3) {
                             $persentase = 50;
                             $width = "w-2/4";
-                        } else if ($identitass->status_kelengkapan == 3) {
+                        } else if ($identitass->status_kelengkapan == 4) {
                             $persentase = 75;
                             $width = "w-3/4";
-                        } else if ($identitass->status_kelengkapan == 4) {
+                        } else if ($identitass->status_kelengkapan == 5) {
                             $persentase = 100;
                             $width = "w-4/4";
                         } else {
-                            $persentase = 25;
+                            $persentase = 0;
                             $width = "w-4";
                         }
                         ?>

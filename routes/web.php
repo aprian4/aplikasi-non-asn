@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth', 'ceklevel:1', 'revalidate']], function ()
     Route::post('admin/pegawai-admin/rpendidikan/update', 'App\Http\Controllers\RiwayatPendidikanController@update');
     Route::get('ganti-password-admin', 'App\Http\Controllers\AkunController@ganti_password');
     Route::post('update-password-admin', 'App\Http\Controllers\AkunController@update_password_user');
+    Route::post('admin/pegawai-admin/sptjm', 'App\Http\Controllers\SptjmController@store');
 });
 
 Route::group(['middleware' => ['auth', 'ceklevel:2', 'revalidate']], function () {
@@ -76,6 +77,7 @@ Route::group(['middleware' => ['auth', 'ceklevel:2', 'revalidate']], function ()
     Route::get('admin/laporan', 'App\Http\Controllers\LaporanController@index');
     Route::get('ganti-password', 'App\Http\Controllers\AkunController@ganti_password');
     Route::post('update-password', 'App\Http\Controllers\AkunController@update_password_user');
+    Route::post('admin/pegawai/sptjm', 'App\Http\Controllers\SptjmController@store');
 });
 
 Route::group(['middleware' => ['auth', 'ceklevel:3', 'revalidate']], function () {

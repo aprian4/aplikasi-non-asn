@@ -37,20 +37,29 @@
                 $tab1 = "";
                 $tab2 = " active";
                 $tab3 = "";
+                $tab4 = "";
             } else if ($_GET && isset($_GET['tab']) && $_GET['tab'] && $_GET['tab'] == 3) {
                 $tab1 = "";
                 $tab2 = "";
                 $tab3 = " active";
+                $tab4 = "";
+            } else if ($_GET && isset($_GET['tab']) && $_GET['tab'] && $_GET['tab'] == 4) {
+                $tab1 = "";
+                $tab2 = "";
+                $tab3 = "";
+                $tab4 = "active";
             } else {
                 $tab1 = " active";
                 $tab2 = "";
                 $tab3 = "";
+                $tab4 = "";
             }
             ?>
             <ul class="nav nav-link-tabs flex-col sm:flex-row justify-center lg:justify-start text-center" role="tablist">
                 <li id="biodata-tab" class="nav-item" role="presentation"> <a href="javascript:;" class="nav-link py-4 {{ $tab1 }}" data-tw-target="#biodata" aria-controls="biodata" aria-selected="true" role="tab"> BIODATA </a> </li>
                 <li id="riwayat-jabatan-tab" class="nav-item" role="presentation"> <a href="javascript:;" class="nav-link py-4 {{ $tab2 }}" data-tw-target="#riwayat-jabatan" aria-selected="false" role="tab"> RIWAYAT JABATAN </a> </li>
                 <li id="riwayat-pendidikan-tab" class="nav-item" role="presentation"> <a href="javascript:;" class="nav-link py-4 {{ $tab3 }}" data-tw-target="#riwayat-pendidikan" aria-selected="false" role="tab"> RIWAYAT PENDIDIKAN </a> </li>
+                <li id="sptjm-tab" class="nav-item" role="presentation"> <a href="javascript:;" class="nav-link py-4 {{ $tab4 }}" data-tw-target="#sptjm" aria-controls="sptjm" aria-selected="true" role="tab"> UPLOAD SPTJM </a> </li>
             </ul>
         </div>@if ($errors->any())
         <div class="alert alert-danger">
@@ -76,6 +85,7 @@
             @include('admin.identitas.biodata')
             @include('admin.identitas.riwayat-jabatan')
             @include('admin.identitas.riwayat-pendidikan')
+            @include('admin.identitas.sptjm')
         </div>
     </div>
     <!-- END: Content -->

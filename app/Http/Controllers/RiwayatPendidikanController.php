@@ -66,7 +66,10 @@ class RiwayatPendidikanController extends Controller
                 $identitas->status_kelengkapan = 3;
             } else if ($identitas->status_kelengkapan == 3) {
                 $identitas->status_kelengkapan = 4;
+            } else if ($identitas->status_kelengkapan == 4) {
+                $identitas->status_kelengkapan = 5;
             }
+
             $identitas->updated_by = Auth::user()->username;
             $identitas->updated_at = new DateTime();
             $identitas->save();

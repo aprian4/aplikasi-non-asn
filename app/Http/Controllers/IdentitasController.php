@@ -97,10 +97,16 @@ class IdentitasController extends Controller
         $data['jabatan'] = Jabatan::where('is_active', 1)->get();
         $data['perkawinan'] = Perkawinan::get();
         $data['skpd'] = Skpd::where('is_active', 1)->get();
+
         $path_foto = Dokumen::where(['identitas_id' => $id, 'jenis_dokumen' => 'foto'])->first();
         $data['foto'] = $path_foto ? Storage::url($path_foto->path) : null;
+
         $path_ktp = Dokumen::where(['identitas_id' => $id, 'jenis_dokumen' => 'ktp'])->first();
         $data['ktp'] = $path_ktp ? Storage::url($path_ktp->path) : null;
+
+        $path_sptjm = Dokumen::where(['identitas_id' => $id, 'jenis_dokumen' => 'sptjm'])->first();
+        $data['sptjm'] = $path_sptjm ? Storage::url($path_sptjm->path) : null;
+
         $data['spk'] = Dokumen::where(['identitas_id' => $id, 'jenis_dokumen' => 'spk'])->get();
         //dd($data['spk']['']);
         $data['ledger'] = Dokumen::where(['identitas_id' => $id, 'jenis_dokumen' => 'ledger'])->get();
@@ -280,6 +286,8 @@ class IdentitasController extends Controller
             $identitas->status_kelengkapan = 3;
         } else if ($identitas->status_kelengkapan == 3) {
             $identitas->status_kelengkapan = 4;
+        } else if ($identitas->status_kelengkapan == 4) {
+            $identitas->status_kelengkapan = 5;
         }
         $identitas->updated_by = Auth::user()->username;
         $identitas->updated_at = new DateTime();

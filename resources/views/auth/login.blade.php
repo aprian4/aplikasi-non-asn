@@ -62,9 +62,10 @@
                             <input type="password" class="intro-x login__input form-control py-3 px-4 block mt-4" placeholder="Password" name="password" id="password" autofocus required>
                         </div>
                         <div class="intro-x mt-5 xl:mt-8 text-center xl:text-left">
-                            <button class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top form-control" type="submit">Login</button>
+                            <button class="btn btn-primary py-3 px-4 w-full xl:w-32 xl:mr-3 align-top form-control" type="submit">LOGIN</button>
+                            <a href="{{ url('images/panduan-aplikasi-enonasn.pdf') }}" target="_blank" <button class="btn btn-secondary align-top py-3 px-4 xl:mr-3" type="button">BUKU PANDUAN </button></a>
                         </div>
-                        <div class="intro-x mt-10 xl:mt-24 text-slate-600 dark:text-slate-500 text-center xl:text-left">©2023 BKPSDM Kota Tangerang Selatan</div>
+                        <div class="intro-x mt-10 xl:mt-24 text-slate-600 dark:text-slate-500 text-center xl:text-left">&copy;<?php echo date('Y'); ?> BKPSDM Kota Tangerang Selatan</div>
                     </form>
                 </div>
             </div>
